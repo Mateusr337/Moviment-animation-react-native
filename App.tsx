@@ -6,6 +6,7 @@ export default function App() {
   const translate = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(1)).current;
   const scaleX = useRef(new Animated.Value(1)).current;
+  const position = useRef(new Animated.Value(40)).current;
 
   const startTranslate = () => {
     Animated.timing(translate, {
@@ -49,11 +50,25 @@ export default function App() {
     });
   };
 
+  const startChangePosition = () => {
+    Animated.timing(position, {
+      toValue: 200,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start(() => {
+      Animated.timing(position, {
+        toValue: 40,
+        duration: 2000,
+        useNativeDriver: false,
+      }).start();
+    });
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
 
-      <Button onPress={startTranslate} title="click here"></Button>
+      <Button onPress={startTranslate} title="Translate X"></Button>
       <Animated.Text
         style={[
           { fontSize: 20, color: "blue", marginBottom: 20 },
@@ -63,7 +78,7 @@ export default function App() {
         Translate X
       </Animated.Text>
 
-      <Button onPress={startChangeScale} title="click here"></Button>
+      <Button onPress={startChangeScale} title="scale"></Button>
       <Animated.Text
         style={[
           { fontSize: 20, color: "blue", marginBottom: 20 },
@@ -73,15 +88,30 @@ export default function App() {
         scale
       </Animated.Text>
 
-      <Button onPress={startChangeScaleX} title="click here"></Button>
+      <Button onPress={startChangeScaleX} title="scale X"></Button>
       <Animated.Text
         style={[
           { fontSize: 20, color: "blue", marginBottom: 20 },
           { transform: [{ scaleX: scaleX }] },
         ]}
       >
-        scale
+        scale X
       </Animated.Text>
+
+      <Button onPress={startChangePosition} title="position"></Button>
+      <Animated.View
+        style={[
+          {
+            marginBottom: 20,
+            width: 40,
+            height: 40,
+            backgroundColor: "blue",
+            position: "absolute",
+            top: position,
+            left: 0,
+          },
+        ]}
+      />
     </View>
   );
 }
